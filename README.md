@@ -119,7 +119,7 @@ Você deve utilizar o banco MongoDB para a gestão de dados. Além disso, a API 
 
 1. Clone o repositório
 
-- `git clone https://github.com:tryber/sd-0x-store-manager-rubric.git`.
+- `git clone https://github.com/tryber/sd-0x-store-manager-rubric.git`.
 - Entre na pasta do repositório que você acabou de clonar:
   - `cd sd-0x-store-manager-rubric`
 
