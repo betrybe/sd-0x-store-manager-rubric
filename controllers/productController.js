@@ -1,13 +1,19 @@
 const Product = require('../models/Product');
 
+const STATUS_200 = 200;
+const STATUS_201 = 201;
+const STATUS_422 = 422;
+const STATUS_500 = 500;
+const FATAL_ERROR = 'Fatal Error';
+
 const add = async (req, res) => {
   try {
     const { name, quantity } = req.body;
     const product = await Product.add(name, quantity);
 
-    return res.status(201).json(product);
+    return res.status(STATUS_201).json(product);
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR  } });
   }
 };
 
@@ -15,9 +21,9 @@ const getAll = async (req, res) => {
   try {
     const products = await Product.getAll();
 
-    return res.status(200).json({ products });
+    return res.status(STATUS_200).json({ products });
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -25,15 +31,15 @@ const show = async (req, res) => {
   try {
     const product = await Product.show(req.params.id);
 
-    if (product) return res.status(200).json(product);
+    if (product) return res.status(STATUS_200).json(product);
 
     const err = {
       code: 'invalid_data',
       message: 'Wrong id format',
     };
-    return res.status(422).json({ err });
+    return res.status(STATUS_422).json({ err });
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -46,7 +52,7 @@ const edit = async (req, res) => {
 
     return show(req, res);
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -55,7 +61,7 @@ const remove = async (req, res) => {
     await show(req, res);
     return await Product.remove(req.params.id);
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 

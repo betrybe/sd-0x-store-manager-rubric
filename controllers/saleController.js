@@ -1,12 +1,19 @@
 const Sale = require('../models/Sale');
 
+const STATUS_200 = 200;
+const STATUS_201 = 201;
+const STATUS_404 = 404;
+const STATUS_422 = 422;
+const STATUS_500 = 500;
+const FATAL_ERROR = 'Fatal Error';
+
 const add = async (req, res) => {
   try {
     const sale = await Sale.add(req.body);
 
-    return res.status(200).json(sale);
+    return res.status(STATUS_200).json(sale);
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -14,9 +21,9 @@ const getAll = async (req, res) => {
   try {
     const sales = await Sale.getAll();
 
-    return res.status(200).json({ sales });
+    return res.status(STATUS_200).json({ sales });
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -24,15 +31,15 @@ const show = async (req, res) => {
   try {
     const sale = await Sale.show(req.params.id);
 
-    if (sale) return res.status(200).json(sale);
+    if (sale) return res.status(STATUS_200).json(sale);
 
     const err = {
       code: 'not_found',
       message: 'Sale not found',
     };
-    return res.status(404).json({ err });
+    return res.status(STATUS_404).json({ err });
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -44,7 +51,7 @@ const edit = async (req, res) => {
 
     return show(req, res);
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
@@ -58,12 +65,12 @@ const remove = async (req, res) => {
         code: 'invalid_data',
         message: 'Wrong sale ID format',
       };
-      return res.status(422).json({ err });
+      return res.status(STATUS_422).json({ err });
     }
     await show(req, res);
     return await Sale.remove(id);
   } catch (error) {
-    return res.status(500).json({ err: { message: 'Fatal Error' } });
+    return res.status(STATUS_500).json({ err: { message: FATAL_ERROR } });
   }
 };
 
